@@ -6,7 +6,7 @@ Voraussetzungen:
 
 1. XAMPP Control Panel starten
 2. Datenbank anlegen (lh2z.sql aus dem SQL-Datenbank Ordner in phpmyadmin importieren)
-3. Standard-Zugangsdaten (XAMPP, Windows)
+3. Standard-Zugangsdaten (XAMPP, Windows):
   - Host: 127.0.0.1 (oder localhost)
   - Port: 3306
   - User: root
