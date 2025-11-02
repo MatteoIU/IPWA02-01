@@ -15,5 +15,5 @@ Voraussetzungen:
 5. Start über Tomcat 10 (in Eclipse)
 
 Zugangsdaten:
-Wissenschaftler:innen: Benutzername: benutzer ; Passwort: passwort
-Administrator:innen: Benutzername: editor ; Passwort: review
+- Wissenschaftler:innen: Benutzername: benutzer ; Passwort: passwort
+- Administrator:innen: Benutzername: editor ; Passwort: review
