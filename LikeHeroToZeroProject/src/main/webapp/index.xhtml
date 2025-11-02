@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="UTF-8" />
+    <title>CO₂-Emissionen – Start</title>
+    <style>
+	  html, body { min-height:100%; }
+	  html {
+	    background: url("#{resource['data:peakpx.jpg']}") no-repeat center center fixed;
+	    background-size: cover;
+	   }
+	   
+      body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:5rem}
+      body .ui-card{background:#ffffffb8}
+      body .ui-panel .ui-panel-content{background:#ffffff00}
+      body .ui-panel .ui-panel-titlebar{background:#ffffff00}
+      body .ui-selectonemenu{background:#ffffff00}
+      .page{max-width:820px;margin:auto}
+      .grid{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center}
+      .footer{margin-top:24px;font-size:.9rem;color:#666}
+      
+      h2{margin-top:0}
+    </style>
+</h:head>
+
+<h:body>
+  <div class="page">
+    <p:card >
+      <h2>CO₂-Emissionen</h2>
+      <p>Wähle ein <b>Land</b>. Es wird automatisch der <b>neueste</b> CO₂-Wert (MtCO₂) angezeigt.</p>
+
+      <h:form id="form">
+  <div class="grid">
+    <!-- Land -->
+    <h:outputLabel for="country" value="Land:" />
+    <p:selectOneMenu id="country" value="#{Co2Controller.selectedCountry}" style="min-width:260px">
+      <f:selectItem itemLabel="-- Bitte Land auswählen --" itemValue="#{null}" noSelectionOption="true" />
+      <f:selectItems value="#{Co2Controller.countries}" />
+      <!-- Land wählen -> Jahre + Ergebnis neu rendern -->
+      <p:ajax listener="#{Co2Controller.onCountryChange}" update="yr result"/>
+    </p:selectOneMenu>
+
+    <!-- Jahrgang -->
+    <h:outputLabel for="yr" value="Jahrgang:" />
+    <p:selectOneMenu id="yr"
+                     value="#{Co2Controller.selectedYear}"
+                     style="max-width:140px"
+                     disabled="#{empty Co2Controller.selectedCountry}">
+      <f:selectItem itemLabel="-- Jahr wählen --" itemValue="#{null}" noSelectionOption="true" />
+      <f:selectItems value="#{Co2Controller.years}" />
+      <p:ajax listener="#{Co2Controller.onYearChange}" update="result"/>
+    </p:selectOneMenu>
+  </div>
+</h:form>
+
+
+      <p:divider/>
+
+      <h:panelGroup id="result">
+  <h:panelGroup rendered="#{not empty Co2Controller.selectedCountry}">
+    <p:panel header="Ergebnis" toggleable="true" collapsed="false">
+      <p>
+        Land: <b>#{Co2Controller.selectedCountry}</b><br/>
+        Jahrgang: <b>#{Co2Controller.latestYear}</b><br/>
+        CO₂: <b>
+          <h:outputText value="#{Co2Controller.latestValueMt}">
+            <f:convertNumber type="number" maxFractionDigits="2" />
+          </h:outputText>
+        </b> MtCO₂
+      </p>
+      <h:panelGroup rendered="#{empty Co2Controller.latestValueMt}">
+        <i>Für dieses Jahr liegt kein CO₂-Wert vor.</i>
+      </h:panelGroup>
+    </p:panel>
+  </h:panelGroup>
+</h:panelGroup>
+
+
+      <p:divider/>
+      <p:linkButton outcome="login" value="Login" styleClass="ui-button-outlined ui-button-secondary"/>
+    </p:card>
+
+   
+  </div>
+</h:body>
+</html>

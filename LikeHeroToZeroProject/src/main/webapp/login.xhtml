@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+   <style>
+	  html, body { min-height:100%; }
+	  html {
+	    background: url("#{resource['data:peakpx.jpg']}") no-repeat center center fixed;
+	    background-size: cover;
+	   }
+	   
+      body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:5rem}
+       body .ui-card{background:#ffffffb8}
+       body .ui-panelgrid .ui-panelgrid-cell{background:#ffffff00}
+       
+      .page{max-width:25rem;margin:auto}
+      .grid{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center}
+      h2{margin-top:0}
+      body .ui-button{margin: 1em}
+      
+    </style>
+</h:head>
+<h:body>
+ <div class="page">
+  <p:card>
+    <h2>Backend-Login</h2>
+
+    <!-- Login-Formular NUR zeigen, wenn NICHT eingeloggt -->
+    
+    <h:panelGroup rendered="#{not LoginController.loggedIn}">
+    
+      <h:form id="loginForm">
+        <p:messages showDetail="true" closable="true" />
+        <p:panelGrid columns="2">
+          <h:outputLabel for="u" value="Benutzername:"/>
+          <p:inputText id="u" value="#{LoginController.benutzername}" required="true"/>
+
+          <h:outputLabel for="p" value="Passwort:"/>
+          <p:password id="p" value="#{LoginController.passwort}" required="true" feedback="false"/>
+        </p:panelGrid>
+
+        <p:commandButton value="Anmelden" action="#{LoginController.login}" update="@form"/>
+        <p:linkButton outcome="index" value="Zur Startseite" styleClass="ui-button-outlined ui-button-secondary"/>
+        
+      </h:form>
+      
+    </h:panelGroup>
+    
+
+    <!-- Falls bereits eingeloggt: Hinweis + Link -->
+    <h:panelGroup rendered="#{LoginController.loggedIn}">
+      <p:message severity="info" summary="Bereits angemeldet" />
+      <p:linkButton outcome="backend" value="Zum Backend"/>
+      <h:panelGroup rendered="#{LoginController.editor}">
+        <p:linkButton outcome="review" value="Review (Vorschläge)" styleClass="ui-button-secondary"/>
+      </h:panelGroup>
+    </h:panelGroup>
+  </p:card>
+  </div>
+</h:body>
+</html>
+
